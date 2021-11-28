@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mycompany.webapp.dao.MemberDao">
+
+	<select id="selectById" parameterType="String" resultType="member">
+		select mid,mname,memail,mphone,mtel,mzipcode,mrole, maddress1,maddress2 from member where mid=#{memberId}
+	</select>
+	
+	<select id="selectMileageById" parameterType="String" resultType="mileage">
+		select amount 
+		from mileage 
+		where member_id=#{memberId} and expire_date>=sysdate and status=1
+	</select>
+	
+	<select id="selectUsedMileageById" parameterType="String" resultType="mileage">
+		select amount 
+		from mileage 
+		where member_id=#{memberId} and expire_date>=sysdate and status=0
+	</select>
+	
+</mapper>

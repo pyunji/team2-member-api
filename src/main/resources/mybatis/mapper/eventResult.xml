@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mycompany.webapp.dao.EventResultDao">
+
+	<select id="selectByEventNoNRank" parameterType="map" resultType="eventResult">
+		select member_id, event_no, rank
+		from event_result
+		where event_no = #{eventNo}
+		and member_id = #{memberId}
+	</select>
+
+	<insert id="insertEventResult" parameterType="map">
+		insert into event_result (member_id, event_no, rank)
+		values (#{memberId}, #{eventNo}, #{rank})
+	</insert>
+
+
+</mapper>
