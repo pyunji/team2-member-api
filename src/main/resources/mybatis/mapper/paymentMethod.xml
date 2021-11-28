@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mycompany.webapp.dao.PaymentMethodDao">
+	<select id="selectAllCard" resultType="paymentMethod">
+		select * from payment_method where card_or_account=0
+	</select>
+	<select id="selectAllAccount" resultType="paymentMethod">
+		select * from payment_method where card_or_account=1
+	</select>
+
+</mapper>

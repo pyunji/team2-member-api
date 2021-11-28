@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mycompany.webapp.dao.EventDao">
+
+	<select id="selectByEventNo" parameterType="int" resultType="event">
+		select no, title, content, issue_date as issueDate, expire_date as expireDate,
+		limit_count as limitCount, count, img
+		from event where no=#{eventNo}
+	</select>
+	
+	<select id="selectCount" parameterType="int" resultType="event">
+		select no, title, content, expire_date,count, limit_count,img
+		from event
+		where no=#{eventNo}
+	</select>
+	
+	<update id="updateCount" parameterType="int">
+		update event 
+		set count = (
+			select nvl(count, 0) + 1
+			from event
+			where no=#{eventNo}
+		) 
+		where no = #{eventNo}
+	</update>
+	
+</mapper>
