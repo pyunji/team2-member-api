@@ -6,11 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,31 +20,50 @@ import com.mycompany.webapp.dto.Color;
 import com.mycompany.webapp.dto.Product;
 import com.mycompany.webapp.dto.ProductToCart;
 import com.mycompany.webapp.dto.Size;
+import com.mycompany.webapp.security.JwtUtil;
 import com.mycompany.webapp.service.CartService;
 import com.mycompany.webapp.vo.Cart;
 
+import io.jsonwebtoken.Claims;
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
 @RequestMapping("/cart")
+@Slf4j
 public class CartController {
 	
-	private static final Logger logger = LoggerFactory.getLogger(CartController.class);
-
 	@Resource private CartService cartService;
 	
 	@GetMapping("")
-	public List<Product> cartList(@RequestBody Map<String, String> map) {
-		logger.info("실행");
+	public List<Product> cartList(HttpServletRequest request) {
+		
+		String jwt = null;
+		if(request.getHeader("Authorization")!=null && request.getHeader("Authorization").startsWith("Bearer")) {
+			jwt = request.getHeader("Authorization").substring(7);
+		} else if(request.getParameter("jwt")!=null) {
+			// <img src="url?jwt=xxx"/>
+			jwt = request.getParameter("jwt");
+		}
+		String mid = null;
+		if(jwt!=null) {
+			Claims claims = JwtUtil.validateToken(jwt);
+			if(claims!=null) {
+				log.info("유효한 토큰");
+				// JWT에서 Payload 얻기
+				mid = JwtUtil.getMid(claims);
+			}
+		}
+		log.info("실행");
 //		String mid = principal.getName();
-		logger.info("auth = {}", map.get("auth"));
-		List<Product> cartItems = cartService.getList(map.get("auth"));
+		log.info("mid = {}", mid);
+		List<Product> cartItems = cartService.getList(mid);
 //		model.addAttribute("cartItems", cartItems);
 //		model.addAttribute("cartSize", cartItems.size());
 		
 		return cartItems;
 	}
 	
-	/* author : 채연
-	 * 상품상세페이지에서 장바구니로 데이터 insert 넘기기
+	/* 상품상세페이지에서 장바구니로 데이터 insert 넘기기
 	 * 같은 상품 담길 시 수량 증가 */
 	@PostMapping("")
 	public void insertCart(@RequestBody ProductToCart product) {
@@ -78,7 +96,7 @@ public class CartController {
 	
 	@PostMapping("/selectColors")
 	public List<Color> selectColors(@RequestBody String pcommonId){
-		logger.info("실행");
+		log.info("실행");
 		List<Color> colors = cartService.getColors(pcommonId);
 //		model.addAttribute("colors", colors);
 		return colors;
@@ -86,7 +104,7 @@ public class CartController {
 	
 	@RequestMapping("/selectSizesByPcolorId")
 	public List<Size> selectSizesPcolorId(@RequestBody String pcolorId) {
-		logger.info("실행");
+		log.info("실행");
 		List<Size> sizes = cartService.getSizesByPcolorId(pcolorId);
 //		model.addAttribute("sizes", sizes);
 		return sizes;
@@ -103,8 +121,8 @@ public class CartController {
 		List<Cart> carts = new ArrayList<Cart>();
 		carts.add(cart);
 		cartService.deleteCart(carts);
-		logger.info("pcolorId: "+ map.get("pcolorid"));
-		logger.info("sizeCode: "+  map.get("sizecode"));
+		log.info("pcolorId: "+ map.get("pcolorid"));
+		log.info("sizeCode: "+  map.get("sizecode"));
 //		return "redirect:/cart";
 	}
 	
@@ -112,8 +130,8 @@ public class CartController {
 	@PostMapping("/deleteSelected")
 	public void deleteSelected(@RequestBody String productStockIds, Principal principal) {
 		String mid = principal.getName();
-		logger.info("실행");
-		logger.info("productStockIds = " + productStockIds);
+		log.info("실행");
+		log.info("productStockIds = " + productStockIds);
 		
 		JSONObject jsonObject = new JSONObject(productStockIds);
 		JSONArray jsonArray = jsonObject.getJSONArray("productStockIds");
@@ -125,9 +143,9 @@ public class CartController {
 			delItems.add(cart);
 		}
 		cartService.deleteCart(delItems);
-		logger.info(jsonArray.getString(0));
+		log.info(jsonArray.getString(0));
 		
-		logger.info("type = " + jsonObject);
+		log.info("type = " + jsonObject);
 //		return "redirect:/cart";
 	}
 }
