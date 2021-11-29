@@ -34,6 +34,7 @@ public class JwtUtil {
 				.compact();
 			result = token;
 		}catch(Exception e) {
+			log.info(e.getMessage());
 		}
 		return result;
 	}
