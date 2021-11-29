@@ -52,8 +52,35 @@
 		<collection property="brand" resultMap="brandMap"/>
 		<collection property="cart" resultMap="cartMap"></collection>
 	</resultMap>
+	
+	<!-- 카트 리스트 출력 옵션 부분 테스트 중 -->
+	<resultMap type="java.util.HashMap" id="cartListTestMap">
+		<id property="pstockid" column="pstockid"/>
+		<result property="pcommonid" column="pcommonid"/>
+		<result property="pcolorid" column="pcolorid"/>
+		<result property="quantity" column="quantity"/>
+		<result property="bname" column="bname"/>
+		<result property="pname" column="pname"/>
+		<result property="img1" column="img1"/>
+		<result property="img2" column="img2"/>
+		<result property="img3" column="img3"/>
+<!-- 		<result property="colorImg" column="color_img"/> -->
+		<result property="occode" column="occode"/>
+		<result property="oscode" column="oscode"/>
+		<result property="pprice" column="pprice"/>
+		<result property="stock" column="stock"/>
+		<collection property="optionList" javaType="java.util.ArrayList" resultMap="optionMap"/>
+	</resultMap>
+	<resultMap type="java.util.HashMap" id="optionMap">
+		<id property="ccode" column="ccode"/>
+		<result property="colorImg" column="color_img"/>
+		<collection property="scodeList" javaType="java.util.ArrayList" resultMap="scodeMap"/>
+	</resultMap>
+	<resultMap type="java.util.HashMap" id="scodeMap">
+		<result property="scode" column="scode"/>
+	</resultMap>
 	<!-- 카트 안의 리스트 출력하기 -->
-	<select id="selectList" parameterType="String" resultMap="cartListMap">
+<!-- 	<select id="selectList" parameterType="String" resultMap="cartListMap">
 		select product_common.pcommonid, product_color.pcolorid, product_stock.pstockid, quantity, bname, pname,
 				scode, ccode, img1, img2, img3, color_img, pprice, stock
 			from cart, product_common, product_color, brand, product_stock
@@ -62,6 +89,32 @@
 	        and product_stock.pcolorid = product_color.pcolorid
 	        and product_common.pcommonid = product_color.pcommonid
 	        and product_common.bno = brand.bno
+	</select> -->
+	
+	<!-- 카트 리스트 출력 옵션 부분 테스트 중 -->
+	<select id="selectList" parameterType="String" resultMap="cartListTestMap">
+        select * 
+        from (
+            select product_common.pcommonid, product_color.pcolorid, product_stock.pstockid, quantity, bname, pname,
+           img1, img2, img3, pprice, stock, product_color.ccode as occode, product_stock.scode as oscode
+			from cart, product_common, product_color, brand, product_stock
+			where cart.mid = #{mid}
+	        and cart.pstockid = product_stock.pstockid
+	        and product_stock.pcolorid = product_color.pcolorid
+	        and product_common.pcommonid = product_color.pcommonid
+	        and product_common.bno = brand.bno ) a 
+            inner join (
+                    select product_common.pcommonid, color_img, ccode, sizes.scode
+                    from product_common, product_color, product_stock, sizes
+                    where product_common.pcommonid in (
+                        select regexp_substr(cart.pstockid, '[^_]+', 1, 1)
+                        from cart
+                        where cart.mid = #{mid}
+                        )
+                    and product_stock.pcolorid = product_color.pcolorid
+                    and product_color.pcommonid = product_common.pcommonid
+                    and sizes.scode = product_stock.scode
+                    order by sno) b using (pcommonid)
 	</select>
 	
 	<!-- 상품의 색상 리스트 출력하기 -->
