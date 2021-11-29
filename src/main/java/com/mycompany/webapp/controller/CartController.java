@@ -35,7 +35,7 @@ public class CartController {
 	@Resource private CartService cartService;
 	
 	@GetMapping("")
-	public List<Product> cartList(HttpServletRequest request) {
+	public List<Map> cartList(HttpServletRequest request) {
 		
 		String jwt = null;
 		if(request.getHeader("Authorization")!=null && request.getHeader("Authorization").startsWith("Bearer")) {
@@ -53,8 +53,9 @@ public class CartController {
 			}
 		}
 		
-		List<Product> cartItems = cartService.getList(mid);
-		
+//		List<Product> cartItems = cartService.getList(mid);
+		List<Map> cartItems = cartService.getList(mid);
+		log.info("cartItems = {}", cartItems);
 		return cartItems;
 	}
 	
@@ -107,17 +108,20 @@ public class CartController {
 
 	
 	@PostMapping("/delete")
-	public void deleteCartItem(@RequestBody Map<String, String> map) {
+	public void deleteCartItem(@RequestBody String pstockid) {
 //		String mid = principal.getName();
-		String pstockId = map.get("pcolorid") + "_" + map.get("sizecode");
+//		String pstockId = map.get("pcolorid") + "_" + map.get("sizecode");
+		log.info(pstockid);
+		
 		Cart cart = new Cart();
-		cart.setMid(map.get("auth"));
-		cart.setPstockid(pstockId);
+		cart.setMid(mid);
+		cart.setPstockid(pstockid);
 		List<Cart> carts = new ArrayList<Cart>();
 		carts.add(cart);
 		cartService.deleteCart(carts);
-		log.info("pcolorId: "+ map.get("pcolorid"));
-		log.info("sizeCode: "+  map.get("sizecode"));
+
+//		log.info("pcolorId: "+ map.get("pcolorid"));
+//		log.info("sizeCode: "+  map.get("sizecode"));
 //		return "redirect:/cart";
 	}
 	
