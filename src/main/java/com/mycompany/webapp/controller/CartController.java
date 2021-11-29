@@ -31,7 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/cart")
 @Slf4j
 public class CartController {
-	
+	private String mid;
 	@Resource private CartService cartService;
 	
 	@GetMapping("")
@@ -41,24 +41,19 @@ public class CartController {
 		if(request.getHeader("Authorization")!=null && request.getHeader("Authorization").startsWith("Bearer")) {
 			jwt = request.getHeader("Authorization").substring(7);
 		} else if(request.getParameter("jwt")!=null) {
-			// <img src="url?jwt=xxx"/>
 			jwt = request.getParameter("jwt");
 		}
-		String mid = null;
+		
 		if(jwt!=null) {
 			Claims claims = JwtUtil.validateToken(jwt);
 			if(claims!=null) {
 				log.info("유효한 토큰");
-				// JWT에서 Payload 얻기
+				// mid 전역 설정
 				mid = JwtUtil.getMid(claims);
 			}
 		}
-		log.info("실행");
-//		String mid = principal.getName();
-		log.info("mid = {}", mid);
+		
 		List<Product> cartItems = cartService.getList(mid);
-//		model.addAttribute("cartItems", cartItems);
-//		model.addAttribute("cartSize", cartItems.size());
 		
 		return cartItems;
 	}
@@ -70,8 +65,8 @@ public class CartController {
 		//장바구니에 상품 담기
 		String pStockId = product.getProductStockId();
 		Cart cart = new Cart();
-		cart.setMemberId(product.getAuth());
-		cart.setProductStockId(pStockId);
+		cart.setMid(product.getAuth());
+		cart.setPstockid(pStockId);
 		cart.setQuantity(product.getQuantity());
 		
 		int cartItem = cartService.insertCart(cart);
@@ -116,8 +111,8 @@ public class CartController {
 //		String mid = principal.getName();
 		String pstockId = map.get("pcolorid") + "_" + map.get("sizecode");
 		Cart cart = new Cart();
-		cart.setMemberId(map.get("auth"));
-		cart.setProductStockId(pstockId);
+		cart.setMid(map.get("auth"));
+		cart.setPstockid(pstockId);
 		List<Cart> carts = new ArrayList<Cart>();
 		carts.add(cart);
 		cartService.deleteCart(carts);
@@ -128,24 +123,20 @@ public class CartController {
 	
 	/*보류*/
 	@PostMapping("/deleteSelected")
-	public void deleteSelected(@RequestBody String productStockIds, Principal principal) {
-		String mid = principal.getName();
-		log.info("실행");
-		log.info("productStockIds = " + productStockIds);
-		
-		JSONObject jsonObject = new JSONObject(productStockIds);
-		JSONArray jsonArray = jsonObject.getJSONArray("productStockIds");
+	public void deleteSelected(@RequestBody List<String> delStockIds) {
+		log.info("delStockIds = {}", delStockIds);
+
 		List<Cart> delItems = new ArrayList<Cart>();
-		for(int i = 0; i < jsonArray.length(); i++) {
+		for(String delStockId : delStockIds) {
 			Cart cart = new Cart();
-			cart.setMemberId(mid);
-			cart.setProductStockId(jsonArray.getString(i));
+			cart.setMid(mid);
+			cart.setPstockid(delStockId);
 			delItems.add(cart);
 		}
 		cartService.deleteCart(delItems);
-		log.info(jsonArray.getString(0));
-		
-		log.info("type = " + jsonObject);
+//		log.info(jsonArray.getString(0));
+//		
+//		log.info("type = " + jsonObject);
 //		return "redirect:/cart";
 	}
 }
