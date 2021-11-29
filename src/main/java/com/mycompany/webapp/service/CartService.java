@@ -75,7 +75,7 @@ public class CartService {
 	@Transactional
 	public void deleteCart(List<Cart> carts) {
 		for(Cart cart:carts) {
-			cartDao.deleteByMemberIdAndProductStockId(cart);
+			cartDao.deleteByMidAndPstockid(cart);
 		}
 	}
 }

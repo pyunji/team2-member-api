@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class Brand {
-	private int no;
+	private int bno;
 	private String name;
 }

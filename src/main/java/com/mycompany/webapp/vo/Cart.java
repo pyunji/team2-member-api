@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class Cart {
-	private String memberId;
-	private String productStockId;
+	private String mid;
+	private String pstockid;
 	private int quantity;
 }

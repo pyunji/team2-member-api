@@ -4,8 +4,8 @@ import lombok.Data;
 
 @Data
 public class ProductCommon {
-	private String id;
-	private String name;
-	private String note;
-	private int brandNo;
+	private String pcommonid;
+	private String pname;
+	private String pnote;
+	private int bno;
 }

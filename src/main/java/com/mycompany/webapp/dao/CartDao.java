@@ -29,5 +29,5 @@ public interface CartDao {
 	int updatePstockId(@Param("newPstockId") String newPstockId, @Param("mid") String mid, @Param("oldPstockId") String oldPstockId);
 	Category selectCategoryByPcolorId(String pcolorId);
 	int insertCart(Cart cart);
-	int deleteByMemberIdAndProductStockId(Cart cart);
+	int deleteByMidAndPstockid(Cart cart);
 }

@@ -3,46 +3,46 @@
 <mapper namespace="com.mycompany.webapp.dao.CartDao">
 
 	<resultMap type="productCommon" id="productCommonMap">
-		<id property="id" column="pcommonid"/>
-		<result property="name" column="pname"/>
-		<result property="note" column="pnote"/>
-		<result property="brandNo" column="bno"/>
+		<id property="pcommonid" column="pcommonid"/>
+		<result property="pname" column="pname"/>
+		<result property="pnote" column="pnote"/>
+		<result property="bno" column="bno"/>
 	</resultMap>
 	
 	<resultMap type="productColor" id="productColorMap">
-		<id property="id" column="pcolorid"/>
+		<id property="pcolorid" column="pcolorid"/>
 		<result property="img1" column="img1"/>
 		<result property="img2" column="img2"/>
 		<result property="img3" column="img3"/>
 		<result property="colorImg" column="color_img"/>
-		<result property="productCommonId" column="pcommonid"/>
-		<result property="colorCode" column="ccode"/>
-		<result property="price" column="pprice"/>
+		<result property="pcommonid" column="pcommonid"/>
+		<result property="ccode" column="ccode"/>
+		<result property="pprice" column="pprice"/>
 	</resultMap>
 	
 	<resultMap type="productStock" id="productStockMap">
-		<id property="id" column="pstockid"/>
-		<result property="productColorId" column="pcolorid"/>
-		<result property="sizeCode" column="scode"/>
+		<id property="pstockid" column="pstockid"/>
+		<result property="pcolorid" column="pcolorid"/>
+		<result property="scode" column="scode"/>
 		<result property="stock" column="stock"/>
 	</resultMap>
 
 	<resultMap type="brand" id="brandMap">
-		<id property="no" column="bno"/>
+		<id property="bno" column="bno"/>
 		<result property="name" column="bname"/>
 	</resultMap>
 	
 	<resultMap type="cart" id="cartMap">
-		<result property="memberId" column="mid"/>
+		<result property="mid" column="mid"/>
 		<result property="quantity" column="quantity"/>
-		<result property="productStockId" column="pstockid"/>
+		<result property="pstockid" column="pstockid"/>
 	</resultMap>
 	
 	<resultMap type="category" id="categoryMap">
-		<id property="no" column="no"/>
-		<result property="depth1Name" column="d1name"/>
-		<result property="depth2Name" column="d2name"/>
-		<result property="depth3Name" column="d3name"/>
+		<id property="catno" column="catno"/>
+		<result property="d1name" column="d1name"/>
+		<result property="d2name" column="d2name"/>
+		<result property="d3name" column="d3name"/>
 	</resultMap>
 	
 	<resultMap type="com.mycompany.webapp.dto.CartList" id="cartListMap">
@@ -155,10 +155,10 @@
 	</insert>
 	
 	<!-- cart delete -->
-	<delete id="deleteByMemberIdAndProductStockId" parameterType="cart">
+	<delete id="deleteByMidAndPstockid" parameterType="cart">
 	delete from cart 
-	where member_id = #{memberId} 
-	and product_stock_id = #{productStockId}
+	where mid = #{mid} 
+	and pstockid = #{pstockid}
 	</delete>
 	
 	<select id="selectBeforeUpdate" parameterType="com.mycompany.webapp.dto.CartUpdate" resultType="cart">
