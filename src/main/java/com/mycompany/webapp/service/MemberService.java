@@ -32,7 +32,7 @@ public class MemberService {
 	public JoinResult join(Member member) {
 		try {
 			//이미 가입된 아이디인지 확인
-			Member dbMember = memberDao.selectByMid(member.getMid()); 
+			Member dbMember = memberDao.selectById(member.getMid()); 
 			
 			//DB에 회원 정보를 저장
 			if(dbMember == null) {
@@ -50,7 +50,7 @@ public class MemberService {
 	public LoginResult login(Member member) {
 		try {
 			//이미 가입된 아이디인지 확인
-			Member dbMember = memberDao.selectByMid(member.getMid()); 
+			Member dbMember = memberDao.selectById(member.getMid()); 
 			
 			//확인 작업
 			if(dbMember == null) {

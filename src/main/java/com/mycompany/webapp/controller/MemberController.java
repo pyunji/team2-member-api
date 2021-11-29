@@ -36,8 +36,10 @@ public class MemberController {
 	
 	@RequestMapping("/join1")
 	public Map<String, String> join1(Member member) {
-		log.info("실행");
-		member.setMenabled(true);
+		log.info("join1실행");
+		
+		log.info(member.toString());
+		
 		member.setMpassword(passwordEncoder.encode(member.getMpassword()));
 		JoinResult jr = memberService.join(member);
 		Map<String ,String> map = new HashMap<String, String>();
@@ -54,7 +56,8 @@ public class MemberController {
 	
 	@RequestMapping("/join2")
 	public Map<String, String> join2(@RequestBody Member member) {
-		log.info("실행");
+		log.info("join2실행");
+		log.info(member.toString());
 		return join1(member);
 	}
 	
@@ -83,6 +86,7 @@ public class MemberController {
 		String authority = authentication.getAuthorities().iterator().next().toString();
 		log.info("authority : " + authority);
 		Map<String, String> map = new HashMap<String, String>();
+		log.info(token.toString());
 		map.put("result", "success");
 		map.put("mid", mid);
 		map.put("jwt", JwtUtil.createToken(mid, authority));

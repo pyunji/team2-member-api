@@ -19,4 +19,10 @@
 		where member_id=#{memberId} and expire_date>=sysdate and status=0
 	</select>
 	
+	<insert id="insert" parameterType="member">
+		INSERT INTO member 
+		(mid, mname, mpassword, menabled, mrole, memail) 
+		VALUES(#{mid}, #{mname}, #{mpassword}, #{menabled}, #{mrole}, #{memail})
+	</insert>
+	
 </mapper>
