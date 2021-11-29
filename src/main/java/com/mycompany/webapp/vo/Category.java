@@ -4,8 +4,8 @@ import lombok.Data;
 
 @Data
 public class Category {
-	private int no;
-	private String depth1Name;
-	private String depth2Name;
-	private String depth3Name;
+	private int catno;
+	private String d1name;
+	private String d2name;
+	private String d3name;
 }

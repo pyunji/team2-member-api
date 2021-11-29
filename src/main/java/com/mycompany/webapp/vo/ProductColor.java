@@ -4,14 +4,14 @@ import lombok.Data;
 
 @Data
 public class ProductColor {
-	private String id;
+	private String pcolorid;
 	private String img1;
 	private String img2;
 	private String img3;
 	private String colorImg;
-	private String productCommonId;
-	private String colorCode;
-	private int price;
+	private String pcommonid;
+	private String ccode;
+	private int pprice;
 	
 	
 }
