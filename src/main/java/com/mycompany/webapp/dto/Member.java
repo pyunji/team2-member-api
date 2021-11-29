@@ -7,7 +7,7 @@ public class Member {
 	private String mid;
 	private String mname;
 	private String mpassword;
-	private boolean menabled;
+	private int menabled;
 	private String mrole;
 	private String memail;
 }
