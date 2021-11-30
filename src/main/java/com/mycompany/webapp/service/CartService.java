@@ -1,7 +1,7 @@
 package com.mycompany.webapp.service;
 
-import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.mycompany.webapp.dao.CartDao;
 import com.mycompany.webapp.dto.CartUpdate;
 import com.mycompany.webapp.dto.Color;
-import com.mycompany.webapp.dto.Product;
 import com.mycompany.webapp.dto.ProductToCart;
 import com.mycompany.webapp.dto.Size;
 import com.mycompany.webapp.vo.Cart;
@@ -20,7 +19,10 @@ import com.mycompany.webapp.vo.Category;
 @Service
 public class CartService {
 	@Resource private CartDao cartDao;
-	public List<Product> getList(String mid) {
+//	public List<Product> getList(String mid) {
+//		return cartDao.selectList(mid);
+//	}
+	public List<Map> getList(String mid) {
 		return cartDao.selectList(mid);
 	}
 	

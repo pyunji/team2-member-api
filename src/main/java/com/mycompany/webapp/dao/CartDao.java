@@ -1,20 +1,21 @@
 package com.mycompany.webapp.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.mycompany.webapp.vo.Cart;
 import com.mycompany.webapp.dto.CartUpdate;
 import com.mycompany.webapp.dto.Color;
-import com.mycompany.webapp.dto.Product;
 import com.mycompany.webapp.dto.Size;
+import com.mycompany.webapp.vo.Cart;
 import com.mycompany.webapp.vo.Category;
 
 @Mapper
 public interface CartDao {
-	List<Product> selectList(String mid);
+//	List<Product> selectList(String mid);
+	List<Map> selectList(String mid);
 	List<Color> selectColorsByPcommonId(String pcommonId);
 	
 	List<Cart> selectBeforeUpdate(CartUpdate cartUpdate);
