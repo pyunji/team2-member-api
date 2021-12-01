@@ -155,8 +155,8 @@
 	<update id="updateCountByQuantity" parameterType="map">
 		UPDATE cart
 			SET quantity = #{quantity}
-			where member_id = #{mid}
-			and product_stock_id = #{pstockId}
+			where mid = #{mid}
+			and pstockid = #{pstockId}
 	</update>
 	
 	<!-- 카트 옵션 업데이트하기 -->

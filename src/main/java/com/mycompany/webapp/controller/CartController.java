@@ -34,22 +34,7 @@ public class CartController {
 	
 	@GetMapping("")
 	public List<Map> cartList(HttpServletRequest request) {
-		
-		String jwt = null;
-		if(request.getHeader("Authorization")!=null && request.getHeader("Authorization").startsWith("Bearer")) {
-			jwt = request.getHeader("Authorization").substring(7);
-		} else if(request.getParameter("jwt")!=null) {
-			jwt = request.getParameter("jwt");
-		}
-		log.info("jwt = " + jwt);
-		if(jwt!=null) {
-			Claims claims = JwtUtil.validateToken(jwt);
-			if(claims!=null) {
-				log.info("유효한 토큰");
-				// mid 전역 설정
-				mid = JwtUtil.getMid(claims);
-			}
-		}
+		mid = JwtUtil.getMidFromRequest(request);
 		
 //		List<Product> cartItems = cartService.getList(mid);
 		List<Map> cartItems = cartService.getList(mid);
@@ -77,8 +62,9 @@ public class CartController {
 	 * 카트 테이블에서 상품 수량을 갱신
 	 */
 	@PostMapping("/update/quantity")
-	public void updateQuantity(@RequestBody Map<String, String> map) {
-		cartService.updateQuantity(Integer.parseInt(map.get("quantity")), map.get("pstockid"), map.get("auth"));
+	public void updateQuantity(HttpServletRequest request, @RequestBody Map<String, String> map) {
+		mid = JwtUtil.getMidFromRequest(request);
+		cartService.updateQuantity(Integer.parseInt(map.get("quantity")), map.get("pstockid"), mid);
 //		return "redirect:/cart";
 	}
 	
