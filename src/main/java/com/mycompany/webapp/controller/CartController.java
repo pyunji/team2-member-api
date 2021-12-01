@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -108,11 +109,18 @@ public class CartController {
 //		return "redirect:/cart";
 	}
 	
-	/*보류*/
 	/* 여러 상품 삭제 */
 	@PostMapping("/deleteSelected")
-	public void deleteSelected(@RequestBody List<Cart> delItems) {
-
+	public void deleteSelected(HttpServletRequest request, @RequestBody List<String> delIds) {
+		mid = JwtUtil.getMidFromRequest(request);
+		List<Cart> delItems = new ArrayList<>();
+		for(String delId: delIds) {
+			Cart cart = new Cart();
+			cart.setMid(mid);
+			cart.setPstockid(delId);
+			delItems.add(cart);
+		}
+		
 		cartService.deleteCart(delItems);
 //		log.info(jsonArray.getString(0));
 //		
