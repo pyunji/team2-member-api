@@ -3,6 +3,8 @@ package com.mycompany.webapp.security;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
 
+import javax.servlet.http.HttpServletRequest;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -12,6 +14,27 @@ import lombok.extern.slf4j.Slf4j;
 public class JwtUtil {
 	//비밀키(노출이 되면 안된다.)
 	private static final String secretKey = "12345";
+	
+	/* request로부터 mid를 추출하는 메서드 */
+	public static String getMidFromRequest(HttpServletRequest request) {
+		String jwt = null;
+		String mid = null;
+		if(request.getHeader("Authorization")!=null && request.getHeader("Authorization").startsWith("Bearer")) {
+			jwt = request.getHeader("Authorization").substring(7);
+		} else if(request.getParameter("jwt")!=null) {
+			jwt = request.getParameter("jwt");
+		}
+		
+		if(jwt!=null) {
+			Claims claims = JwtUtil.validateToken(jwt);
+			if(claims!=null) {
+				log.info("유효한 토큰");
+				// mid 전역범위에 저장
+				mid = getMid(claims);
+			}
+		}
+		return mid;
+	}
 	
 	//JWT 생성
 	//개인정보 JWT에 저장시키면 안됨 비밀번호 같은 

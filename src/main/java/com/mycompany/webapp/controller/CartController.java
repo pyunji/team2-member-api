@@ -1,15 +1,13 @@
 package com.mycompany.webapp.controller;
 
-import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mycompany.webapp.dto.Color;
-import com.mycompany.webapp.dto.Product;
+import com.mycompany.webapp.dto.DelItemsByOrder;
 import com.mycompany.webapp.dto.ProductToCart;
 import com.mycompany.webapp.dto.Size;
 import com.mycompany.webapp.security.JwtUtil;
@@ -31,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/cart")
 @Slf4j
 public class CartController {
-	private String mid;
+	private static String mid;
 	@Resource private CartService cartService;
 	
 	@GetMapping("")
@@ -43,7 +41,7 @@ public class CartController {
 		} else if(request.getParameter("jwt")!=null) {
 			jwt = request.getParameter("jwt");
 		}
-		
+		log.info("jwt = " + jwt);
 		if(jwt!=null) {
 			Claims claims = JwtUtil.validateToken(jwt);
 			if(claims!=null) {
@@ -106,7 +104,7 @@ public class CartController {
 		return sizes;
 	}
 
-	
+	/* 하나의 상품 삭제 */
 	@PostMapping("/delete")
 	public void deleteCartItem(@RequestBody String pstockid) {
 //		String mid = principal.getName();
@@ -126,21 +124,29 @@ public class CartController {
 	}
 	
 	/*보류*/
+	/* 여러 상품 삭제 */
 	@PostMapping("/deleteSelected")
-	public void deleteSelected(@RequestBody List<String> delStockIds) {
-		log.info("delStockIds = {}", delStockIds);
+	public void deleteSelected(@RequestBody List<Cart> delItems) {
 
-		List<Cart> delItems = new ArrayList<Cart>();
-		for(String delStockId : delStockIds) {
-			Cart cart = new Cart();
-			cart.setMid(mid);
-			cart.setPstockid(delStockId);
-			delItems.add(cart);
-		}
 		cartService.deleteCart(delItems);
 //		log.info(jsonArray.getString(0));
 //		
 //		log.info("type = " + jsonObject);
 //		return "redirect:/cart";
+	}
+	
+	@PostMapping("/deletebyorder")
+	public void deleteByOrder(HttpServletRequest request, @RequestBody List<String> delItemsByOrder) {
+		log.info("실행");
+		mid = JwtUtil.getMidFromRequest(request);
+		log.info("mid = {}", mid);
+		List<Cart> carts = new ArrayList<Cart>();
+		for(String delItemByOrder : delItemsByOrder) {
+			Cart cart = new Cart();
+			cart.setMid(mid);
+			cart.setPstockid(delItemByOrder);
+			carts.add(cart);
+		}
+		cartService.deleteCart(carts);
 	}
 }

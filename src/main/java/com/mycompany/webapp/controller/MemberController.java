@@ -90,6 +90,7 @@ public class MemberController {
 		map.put("result", "success");
 		map.put("mid", mid);
 		map.put("jwt", JwtUtil.createToken(mid, authority));
+		log.info("jwt: " + JwtUtil.createToken(mid, authority));
 		
 		return map;
 	}
