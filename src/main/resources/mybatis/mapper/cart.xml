@@ -200,11 +200,11 @@
 		VALUES (#{memberId}, #{productStockId}, #{quantity}) -->
 		MERGE INTO CART
 		USING DUAL
-		ON (CART.MEMBER_ID = #{memberId} AND CART.PRODUCT_STOCK_ID = #{productStockId})
+		ON (CART.mid = #{mid} AND CART.pstockid = #{pstockid})
 		WHEN MATCHED THEN
 		UPDATE SET CART.QUANTITY = CART.QUANTITY + #{quantity}
 		WHEN NOT MATCHED THEN
-		INSERT VALUES(#{memberId}, #{productStockId}, #{quantity})
+		INSERT VALUES(#{mid}, #{pstockid}, #{quantity})
 	</insert>
 	
 	<!-- cart delete -->
