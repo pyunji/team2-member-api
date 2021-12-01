@@ -46,15 +46,14 @@ public class CartController {
 	/* 상품상세페이지에서 장바구니로 데이터 insert 넘기기
 	 * 같은 상품 담길 시 수량 증가 */
 	@PostMapping("")
-	public void insertCart(@RequestBody ProductToCart product) {
+	public void insertCart(HttpServletRequest request, @RequestBody Cart product) {
 		//장바구니에 상품 담기
-		String pStockId = product.getProductStockId();
-		Cart cart = new Cart();
-		cart.setMid(product.getAuth());
-		cart.setPstockid(pStockId);
-		cart.setQuantity(product.getQuantity());
+		mid = JwtUtil.getMidFromRequest(request);
+		log.info(mid);
+		product.setMid(mid);
+		log.info(product.toString());
 		
-		int cartItem = cartService.insertCart(cart);
+		int cartItem = cartService.insertCart(product);
 		
 //		return "redirect:/cart";
 	}
