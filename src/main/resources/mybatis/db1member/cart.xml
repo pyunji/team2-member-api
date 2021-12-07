@@ -8,7 +8,7 @@
 	</resultMap>
 	
 	<!-- 카트 리스트 출력 옵션 부분 테스트 중 -->
-	<resultMap type="java.util.HashMap" id="cartListTestMap">
+<!-- 	<resultMap type="java.util.HashMap" id="cartListTestMap">
 		<id property="pstockid" column="pstockid"/>
 		<result property="pcommonid" column="pcommonid"/>
 		<result property="pcolorid" column="pcolorid"/>
@@ -23,7 +23,7 @@
 		<result property="pprice" column="pprice"/>
 		<result property="stock" column="stock"/>
 		<collection property="optionList" javaType="java.util.ArrayList" resultMap="optionMap"/>
-	</resultMap>
+	</resultMap> -->
 	
 	<resultMap type="java.util.HashMap" id="optionMap">
 		<id property="ccode" column="ccode"/>
@@ -56,7 +56,7 @@
 	</select>
 	
 	<!-- 카트 리스트 출력 -->
-	<select id="selectList" parameterType="String" resultMap="cartListTestMap">
+<!-- 	<select id="selectList" parameterType="String" resultMap="cartListTestMap">
         select * 
         from (
             select product_common.pcommonid, product_color.pcolorid, product_stock.pstockid, quantity, bname, pname,
@@ -79,7 +79,7 @@
                     and product_color.pcommonid = product_common.pcommonid
                     and sizes.scode = product_stock.scode
                     order by sno) b using (pcommonid)
-	</select>
+	</select> -->
 	
 	<!-- 상품의 색상 리스트 출력하기 -->
 	<select id="selectColorsByPcommonId" parameterType="String" resultType="com.mycompany.webapp.dto.Color">
