@@ -19,7 +19,8 @@ public class JwtUtil {
 	public static String getMidFromRequest(HttpServletRequest request) {
 		String jwt = null;
 		String mid = null;
-		if(request.getHeader("Authorization")!=null && request.getHeader("Authorization").startsWith("Bearer")) {
+		if(request.getHeader("Authorization")!=null 
+				&& request.getHeader("Authorization").startsWith("Bearer")) {
 			jwt = request.getHeader("Authorization").substring(7);
 		} else if(request.getParameter("jwt")!=null) {
 			jwt = request.getParameter("jwt");

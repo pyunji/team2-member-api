@@ -91,7 +91,7 @@
 	        and product_common.bno = brand.bno
 	</select> -->
 	
-	<!-- 카트 리스트 출력 옵션 부분 테스트 중 -->
+	<!-- 카트 리스트 출력 -->
 	<select id="selectList" parameterType="String" resultMap="cartListTestMap">
         select * 
         from (
@@ -196,8 +196,6 @@
 	
 	<!-- cart insert -->
 	<insert id="insertCart" parameterType="cart">
-		<!-- INSERT INTO CART(MEMBER_ID, PRODUCT_STOCK_ID, QUANTITY)
-		VALUES (#{memberId}, #{productStockId}, #{quantity}) -->
 		MERGE INTO CART
 		USING DUAL
 		ON (CART.mid = #{mid} AND CART.pstockid = #{pstockid})

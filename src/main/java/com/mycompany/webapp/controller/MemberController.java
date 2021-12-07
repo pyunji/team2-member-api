@@ -63,8 +63,6 @@ public class MemberController {
 	
 	@RequestMapping("/login")
 	public Map<String, String> login1(String mid, String mpassword) {
-//		String mid = memberMap.get("mid");
-//		String mpassword = memberMap.get("mpassword");
 		log.info("login1 실행");
 		log.info("mid = " + mid);
 		log.info("mpassword = " + mpassword);

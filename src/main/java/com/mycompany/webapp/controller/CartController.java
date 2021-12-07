@@ -37,7 +37,6 @@ public class CartController {
 	public List<Map> cartList(HttpServletRequest request) {
 		mid = JwtUtil.getMidFromRequest(request);
 		
-//		List<Product> cartItems = cartService.getList(mid);
 		List<Map> cartItems = cartService.getList(mid);
 		log.info("cartItems = {}", cartItems);
 		return cartItems;
@@ -54,8 +53,6 @@ public class CartController {
 		log.info(product.toString());
 		
 		int cartItem = cartService.insertCart(product);
-		
-//		return "redirect:/cart";
 	}
 	
 	/*
