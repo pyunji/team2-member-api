@@ -1,56 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mycompany.webapp.dao.CartDao">
-
-	<resultMap type="productCommon" id="productCommonMap">
-		<id property="pcommonid" column="pcommonid"/>
-		<result property="pname" column="pname"/>
-		<result property="pnote" column="pnote"/>
-		<result property="bno" column="bno"/>
-	</resultMap>
-	
-	<resultMap type="productColor" id="productColorMap">
-		<id property="pcolorid" column="pcolorid"/>
-		<result property="img1" column="img1"/>
-		<result property="img2" column="img2"/>
-		<result property="img3" column="img3"/>
-		<result property="colorImg" column="color_img"/>
-		<result property="pcommonid" column="pcommonid"/>
-		<result property="ccode" column="ccode"/>
-		<result property="pprice" column="pprice"/>
-	</resultMap>
-	
-	<resultMap type="productStock" id="productStockMap">
-		<id property="pstockid" column="pstockid"/>
-		<result property="pcolorid" column="pcolorid"/>
-		<result property="scode" column="scode"/>
-		<result property="stock" column="stock"/>
-	</resultMap>
-
-	<resultMap type="brand" id="brandMap">
-		<id property="bno" column="bno"/>
-		<result property="name" column="bname"/>
-	</resultMap>
-	
 	<resultMap type="cart" id="cartMap">
 		<result property="mid" column="mid"/>
 		<result property="quantity" column="quantity"/>
 		<result property="pstockid" column="pstockid"/>
-	</resultMap>
-	
-	<resultMap type="category" id="categoryMap">
-		<id property="catno" column="catno"/>
-		<result property="d1name" column="d1name"/>
-		<result property="d2name" column="d2name"/>
-		<result property="d3name" column="d3name"/>
-	</resultMap>
-	
-	<resultMap type="com.mycompany.webapp.dto.CartList" id="cartListMap">
-		<collection property="productCommon" resultMap="productCommonMap"/>
-		<collection property="productColor" resultMap="productColorMap"/>
-		<collection property="productStock" resultMap="productStockMap"/>
-		<collection property="brand" resultMap="brandMap"/>
-		<collection property="cart" resultMap="cartMap"></collection>
 	</resultMap>
 	
 	<!-- 카트 리스트 출력 옵션 부분 테스트 중 -->
@@ -64,32 +18,22 @@
 		<result property="img1" column="img1"/>
 		<result property="img2" column="img2"/>
 		<result property="img3" column="img3"/>
-<!-- 		<result property="colorImg" column="color_img"/> -->
 		<result property="occode" column="occode"/>
 		<result property="oscode" column="oscode"/>
 		<result property="pprice" column="pprice"/>
 		<result property="stock" column="stock"/>
 		<collection property="optionList" javaType="java.util.ArrayList" resultMap="optionMap"/>
 	</resultMap>
+	
 	<resultMap type="java.util.HashMap" id="optionMap">
 		<id property="ccode" column="ccode"/>
 		<result property="colorImg" column="color_img"/>
 		<collection property="scodeList" javaType="java.util.ArrayList" resultMap="scodeMap"/>
 	</resultMap>
+	
 	<resultMap type="java.util.HashMap" id="scodeMap">
 		<result property="scode" column="scode"/>
 	</resultMap>
-	<!-- 카트 안의 리스트 출력하기 -->
-<!-- 	<select id="selectList" parameterType="String" resultMap="cartListMap">
-		select product_common.pcommonid, product_color.pcolorid, product_stock.pstockid, quantity, bname, pname,
-				scode, ccode, img1, img2, img3, color_img, pprice, stock
-			from cart, product_common, product_color, brand, product_stock
-			where cart.mid = #{mid}
-	        and cart.pstockid = product_stock.pstockid
-	        and product_stock.pcolorid = product_color.pcolorid
-	        and product_common.pcommonid = product_color.pcommonid
-	        and product_common.bno = brand.bno
-	</select> -->
 	
 	<!-- 카트 리스트 출력 -->
 	<select id="selectList" parameterType="String" resultMap="cartListTestMap">
@@ -126,20 +70,6 @@
 			and product_stock.product_color_id = product_color.id
 	</select>
 	<!-- 상품의 사이즈 리스트 출력하기 -->
-<!-- 	<select id="selectSizesByPcommonId" parameterType="String" resultType="com.mycompany.webapp.dto.Size">
-		select size_code 
-		from (
-			select distinct sizes.no, size_code
-				from product_common, SIZES, product_color, product_stock
-				where product_common.id = #{pcommonId}
-				and product_color.product_common_id = product_common.id
-				and product_stock.product_color_id = product_color.id
-				and sizes.code = product_stock.size_code
-				order by sizes.no
-		)
-	</select> -->
-	
-	<!-- 상품의 사이즈 리스트 출력하기 -->
 	<!-- * 수정 ! 상품의 사이즈 리스트는 pcolorId로 가져와야햔다. -->
 	<select id="selectSizesByPcolorId" parameterType="String" resultType="com.mycompany.webapp.dto.Size">
 		select size_code
@@ -166,33 +96,6 @@
 			where member_id = #{mid}
 			and product_stock_id = #{oldPstockId}
 	</update>
-	
-	<!-- cart update -->
-<!-- 	<update id="update" parameterType="com.mycompany.webapp.dto.CartUpdate">
-		<if test=""></if>
-		UPDATE CART SET 
-		MEMBER_ID = #{memberId} AND PRODUCT_STOCK_ID = #{newPstockId})
-		WHEN MATCHED THEN
-		UPDATE SET QUANTITY = QUANTITY + #{quantity}
-		WHEN NOT MATCHED THEN
-		INSERT VALUES(#{memberId}, #{newPstockId}, #{quantity})
-		DELETE WHERE member_id = #{memberId}
-			AND product_stock_id = #{oldPstockId}
-		]]>
-	</update> -->
-	
-	<!-- pcolorId로 카테고리 뽑아오기-->
-	<select id="selectCategoryByPcolorId" parameterType="String" resultMap="categoryMap">
-	select * from (
-		select distinct no, depth1_name, depth2_name, depth3_name
-			from product_common, product_color, product_category, category
-            where product_color.id = #{pcolorId}
-	        and product_color.product_common_id = product_common.id
-            and product_category.product_common_id = product_common.id
-            and product_category.category_no = category.no
-            order by length(depth2_name))
-            where rownum=1
-	</select>
 	
 	<!-- cart insert -->
 	<insert id="insertCart" parameterType="cart">
