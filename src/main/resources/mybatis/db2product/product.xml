@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mycompany.webapp.dao.db2product.ProductDao">
+	<resultMap type="com.mycompany.webapp.dto.CartItem" id="pcommonMap">
+		<result property="pname" column="pname"/>
+		<result property="bname" column="bname"/>
+		<result property="img1" column="img1"/>
+		<result property="pprice" column="pprice"/>
+		<result property="stock" column="stock"/>
+	</resultMap>
+	
+	<resultMap type="com.mycompany.webapp.dto.ProductColorData" id="productColorDataMap">
+		<id property="pcolorid" column="pcolorid"/>
+		<result property="ccode" column="ccode"/>
+		<result property="colorImg" column="color_img"/>
+		<collection property="productStockData" javaType="java.util.ArrayList" resultMap="productStockDataMap"/>
+	</resultMap>
+
+	<resultMap type="com.mycompany.webapp.dto.ProductStockData" id="productStockDataMap">
+		<id property="pstockid" column="pstockid"/>
+		<result property="scode" column="scode"/>
+		<result property="stock" column="stock"/>
+	</resultMap>
+	
+	<select id="selectPnameAndBname" parameterType="map" resultMap="pcommonMap">
+		select pname, bname, img1, pprice, stock
+		from product_common join brand using(bno)
+		join product_color using(pcommonid)
+		join product_stock using(pcolorid)
+		where pcommonid = #{pcommonid}
+		and pcolorid = #{pcolorid}
+		and pstockid = #{pstockid}
+	</select>
+	<select id="selectProductColorStockData" parameterType="String" resultMap="productColorDataMap">
+	select pcommonid, pcolorid, ccode, color_img, pstockid, scode, stock
+	from product_color 
+	    join product_stock using(pcolorid) 
+	    join product_common using(pcommonid)
+	where pcommonid = #{pcommonid}
+	</select>
+</mapper>
