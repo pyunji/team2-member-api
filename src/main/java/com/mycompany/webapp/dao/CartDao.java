@@ -10,11 +10,9 @@ import com.mycompany.webapp.dto.CartUpdate;
 import com.mycompany.webapp.dto.Color;
 import com.mycompany.webapp.dto.Size;
 import com.mycompany.webapp.vo.Cart;
-import com.mycompany.webapp.vo.Category;
 
 @Mapper
 public interface CartDao {
-//	List<Product> selectList(String mid);
 	List<Map> selectList(String mid);
 	List<Color> selectColorsByPcommonId(String pcommonId);
 	
@@ -28,7 +26,6 @@ public interface CartDao {
 	List<Size> selectSizesByPcolorId(String PcolorId);
 	int updateCountByQuantity(@Param("quantity") int quantity, @Param("pstockId") String pstockId, @Param("mid") String mid);
 	int updatePstockId(@Param("newPstockId") String newPstockId, @Param("mid") String mid, @Param("oldPstockId") String oldPstockId);
-	Category selectCategoryByPcolorId(String pcolorId);
 	int insertCart(Cart cart);
 	int deleteByMidAndPstockid(Cart cart);
 }

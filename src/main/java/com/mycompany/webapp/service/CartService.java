@@ -14,14 +14,11 @@ import com.mycompany.webapp.dto.Color;
 import com.mycompany.webapp.dto.ProductToCart;
 import com.mycompany.webapp.dto.Size;
 import com.mycompany.webapp.vo.Cart;
-import com.mycompany.webapp.vo.Category;
 
 @Service
 public class CartService {
 	@Resource private CartDao cartDao;
-//	public List<Product> getList(String mid) {
-//		return cartDao.selectList(mid);
-//	}
+
 	public List<Map> getList(String mid) {
 		return cartDao.selectList(mid);
 	}
@@ -29,10 +26,6 @@ public class CartService {
 	public List<Color> getColors(String pcommonId) {
 		return cartDao.selectColorsByPcommonId(pcommonId);
 	}
-	
-	/*	public List<Size> getSizesByPcommonId(String pcommonId) {
-			return cartDao.selectSizesByPcommonId(pcommonId);
-		}*/
 	
 	public List<Size> getSizesByPcolorId(String pcolorId) {
 		return cartDao.selectSizesByPcolorId(pcolorId);
@@ -63,10 +56,6 @@ public class CartService {
 			cartDao.updateQuantity(cartUpdate);
 			return cartDao.deleteToUpdate(cartUpdate);
 		}
-	}
-	
-	public Category setCategories(String pcolorId) {
-		return cartDao.selectCategoryByPcolorId(pcolorId);
 	}
 
 	@Transactional
