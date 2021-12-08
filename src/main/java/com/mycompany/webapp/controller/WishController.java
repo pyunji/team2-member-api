@@ -40,7 +40,6 @@ public class WishController {
 	@PostMapping("")
 	public void insertWish(HttpServletRequest request, @RequestBody Wish wish) {
 		String mid = JwtUtil.getMidFromRequest(request);
-		log.info(mid);
 		wish.setMid(mid);
 		
 //		//test
@@ -55,11 +54,21 @@ public class WishController {
 	@DeleteMapping("/{pstockid}")
 	public void deleteWish(HttpServletRequest request, @PathVariable String pstockid) {
 		String mid = JwtUtil.getMidFromRequest(request);
-		log.info(mid);
 		Wish wish = new Wish();
 		wish.setMid(mid);
 		wish.setPstockid(pstockid);
 		
 		wishService.deleteItem(wish);
+	}
+	
+	/* 관심상품에 이미 있는지 여부 확인하기 */
+	@GetMapping("/{pstockid}")
+	public int selectCount(HttpServletRequest request, @PathVariable String pstockid) {
+		String mid = JwtUtil.getMidFromRequest(request);
+		Wish wish = new Wish();
+		wish.setMid(mid);
+		wish.setPstockid(pstockid);
+		
+		return wishService.selectCount(wish);
 	}
 }

@@ -35,7 +35,10 @@ public class WishService {
 	}
 	
 	public void deleteItem(Wish wish) {
-		log.info(wish.getPstockid());
 		wishDao.deleteItem(wish);
+	}
+	
+	public int selectCount(Wish wish) {
+		return wishDao.selectCount(wish);
 	}
 }

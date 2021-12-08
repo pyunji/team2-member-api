@@ -39,7 +39,7 @@
 	where pcommonid = #{pcommonid}
 	</select>
 	<select id="selectItemByPstockid" parameterType="String" resultType="wishitem">
-		select pstockid, bname, pname, img1
+		select pstockid, bname, pname, img1, pprice, pcolorid
 		from product_stock
 			join product_color using(pcolorid)
 			join product_common using(pcommonid)

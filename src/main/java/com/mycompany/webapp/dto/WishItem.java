@@ -8,4 +8,6 @@ public class WishItem {
 	private String bname;
 	private String pname;
 	private String img1;
+	private int pprice;
+	private String pcolorid;
 }

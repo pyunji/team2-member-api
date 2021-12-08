@@ -12,4 +12,5 @@ public interface WishDao {
 	List<Wish> selectAllByMid(String mid);
 	void insertItem(Wish wish);
 	void deleteItem(Wish wish);
+	int selectCount(Wish wish);
 }

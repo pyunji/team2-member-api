@@ -6,6 +6,10 @@
 		select * from wish where mid = #{mid}
 	</select>
 	
+	<select id="selectCount" parameterType="wish" resultType="Integer">
+		select count(*) from wish where mid = #{mid} and pstockid = #{pstockid}
+	</select>
+	
 	<!-- wish insert -->
 	<insert id="insertItem" parameterType="wish">
 		insert into wish (mid, pstockid) values (#{mid}, #{pstockid})
