@@ -1,0 +1,1 @@
+{"id":"172.30.1.35.tm163896748238800001","wasCommitted":false,"participants":[{"uri":"172.30.1.35.tm1","state":"TERMINATED","expires":1638967492794,"resourceName":"db1DataSource"},{"uri":"172.30.1.35.tm2","state":"TERMINATED","expires":1638967492794,"resourceName":"ds2DataSource"}]}

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mycompany.webapp.dao.db1member.WishDao">
+	<!-- mid로 모든 위시리스트 가져오기 -->
+	<select id="selectAllByMid" parameterType="String" resultType="wish">
+		select * from wish where mid = #{mid}
+	</select>
+	
+	<!-- wish insert -->
+	<insert id="insertItem" parameterType="wish">
+		insert into wish (mid, pstockid) values (#{mid}, #{pstockid})
+	</insert>
+	
+	<!-- wish delete -->
+	<delete id="deleteItem" parameterType="wish">
+		delete from wish 
+		where mid = #{mid} 
+		and pstockid = #{pstockid}
+	</delete>
+</mapper>

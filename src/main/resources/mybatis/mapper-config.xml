@@ -13,5 +13,7 @@
 		<typeAlias type="com.mycompany.webapp.vo.CouponDetail" alias="couponDetail"/>
 		<typeAlias type="com.mycompany.webapp.vo.Event" alias="event"/>
 		<typeAlias type="com.mycompany.webapp.vo.Mileage" alias="mileage"/>
+		<typeAlias type="com.mycompany.webapp.vo.Wish" alias="wish"/>
+		<typeAlias type="com.mycompany.webapp.dto.WishItem" alias="wishitem"/>
 	</typeAliases>
 </configuration>
