@@ -1,4 +1,4 @@
-package com.mycompany.webapp.dao;
+package com.mycompany.webapp.dao.db1member;
 
 import org.apache.ibatis.annotations.Mapper;
 

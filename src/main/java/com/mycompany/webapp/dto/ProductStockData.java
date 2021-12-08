@@ -3,6 +3,8 @@ package com.mycompany.webapp.dto;
 import lombok.Data;
 
 @Data
-public class DelItemsByOrder {
+public class ProductStockData {
 	String pstockid;
+	String scode;
+	Integer stock;
 }

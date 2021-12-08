@@ -4,7 +4,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.mycompany.webapp.dao.MemberDao;
+import com.mycompany.webapp.dao.db1member.MemberDao;
 import com.mycompany.webapp.dto.Member;
 
 import lombok.extern.slf4j.Slf4j;

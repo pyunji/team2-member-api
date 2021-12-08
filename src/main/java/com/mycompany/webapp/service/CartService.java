@@ -1,38 +1,51 @@
 package com.mycompany.webapp.service;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import com.mycompany.webapp.dao.CartDao;
+import com.mycompany.webapp.dao.db1member.CartDao;
+import com.mycompany.webapp.dao.db2product.ProductDao;
+import com.mycompany.webapp.dto.CartItem;
 import com.mycompany.webapp.dto.CartUpdate;
 import com.mycompany.webapp.dto.Color;
 import com.mycompany.webapp.dto.ProductToCart;
 import com.mycompany.webapp.dto.Size;
 import com.mycompany.webapp.vo.Cart;
-import com.mycompany.webapp.vo.Category;
 
 @Service
 public class CartService {
+	
 	@Resource private CartDao cartDao;
-//	public List<Product> getList(String mid) {
-//		return cartDao.selectList(mid);
-//	}
-	public List<Map> getList(String mid) {
-		return cartDao.selectList(mid);
+
+	@Resource private ProductDao productDao;
+	
+	@Transactional
+	public List<CartItem> getList(String mid) {
+		List<CartItem> dataFromMemberDB = cartDao.selectPidList(mid);
+		for(CartItem cartItem : dataFromMemberDB) {
+			String pstockid = cartItem.getPstockid();
+			String pcommonid = cartItem.getPcommonid();
+			String pcolorid = pcommonid + "_" + cartItem.getOccode();
+			cartItem.setPcolorid(pcolorid);
+			CartItem dataFromPDB1 = productDao.selectPnameAndBname(pcommonid, pcolorid, pstockid);
+			cartItem.setBname(dataFromPDB1.getBname());
+			cartItem.setPname(dataFromPDB1.getPname());
+			cartItem.setImg1(dataFromPDB1.getImg1());
+			cartItem.setPprice(dataFromPDB1.getPprice());
+			cartItem.setStock(dataFromPDB1.getStock());
+			cartItem.setProductColorData(productDao.selectProductColorStockData(pcommonid));
+		}
+		return dataFromMemberDB;
+		
 	}
 	
 	public List<Color> getColors(String pcommonId) {
 		return cartDao.selectColorsByPcommonId(pcommonId);
 	}
-	
-	/*	public List<Size> getSizesByPcommonId(String pcommonId) {
-			return cartDao.selectSizesByPcommonId(pcommonId);
-		}*/
 	
 	public List<Size> getSizesByPcolorId(String pcolorId) {
 		return cartDao.selectSizesByPcolorId(pcolorId);
@@ -63,10 +76,6 @@ public class CartService {
 			cartDao.updateQuantity(cartUpdate);
 			return cartDao.deleteToUpdate(cartUpdate);
 		}
-	}
-	
-	public Category setCategories(String pcolorId) {
-		return cartDao.selectCategoryByPcolorId(pcolorId);
 	}
 
 	@Transactional
