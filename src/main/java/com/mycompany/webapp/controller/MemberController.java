@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mycompany.webapp.dto.Member;
+import com.mycompany.webapp.dto.MemberDto;
 import com.mycompany.webapp.security.JwtUtil;
 import com.mycompany.webapp.service.MemberService;
 import com.mycompany.webapp.service.MemberService.JoinResult;
@@ -35,7 +35,7 @@ public class MemberController {
 	@Autowired private AuthenticationManager authenticationManager;
 	
 	@RequestMapping("/join1")
-	public Map<String, String> join1(Member member) {
+	public Map<String, String> join1(MemberDto member) {
 		log.info("join1실행");
 		
 		log.info(member.toString());
@@ -55,7 +55,7 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/join2")
-	public Map<String, String> join2(@RequestBody Member member) {
+	public Map<String, String> join2(@RequestBody MemberDto member) {
 		log.info("join2실행");
 		log.info(member.toString());
 		return join1(member);
