@@ -3,7 +3,7 @@ package com.mycompany.webapp.dto;
 import lombok.Data;
 
 @Data
-public class Member {
+public class MemberDto {
 	private String mid;
 	private String mname;
 	private String mpassword;

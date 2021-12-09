@@ -5,7 +5,7 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-public class Member {
+public class MemberVo {
 	private String mid;
 	private String mpassword;
 	private String mname;
@@ -17,9 +17,11 @@ public class Member {
 	private String maddress2;
 	private Date birth;
 	private int gender;
-	private String refId;
-	private String loginType;
-	private int tosNo;
+	private String ref_id;
+	private String login_type;
+	private int tos_no;
 	private int menabled;
 	private String mrole;
+	private Date sign_up_date;
+	private int grade_level;
 }
