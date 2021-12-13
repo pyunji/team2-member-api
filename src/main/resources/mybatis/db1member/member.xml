@@ -21,8 +21,8 @@
 	
 	<insert id="insert" parameterType="memberDto">
 		INSERT INTO member 
-		(mid, mname, mpassword, menabled, mrole, memail, sign_up_date, grade_level) 
-		VALUES(#{mid}, #{mname}, #{mpassword}, #{menabled}, #{mrole}, #{memail}, to_date(sysdate,'YY-MM-DD'), 1)
+		(mid, mname, mpassword, menabled, mrole, memail, mphone, sign_up_date, grade_level,gender) 
+		VALUES(#{mid}, #{mname}, #{mpassword}, #{menabled}, #{mrole}, #{memail}, #{mphone}, to_date(sysdate,'YY-MM-DD'), 1,0)
 	</insert>
 	
 </mapper>

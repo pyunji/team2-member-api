@@ -10,4 +10,5 @@ public class MemberDto {
 	private int menabled;
 	private String mrole;
 	private String memail;
+	private String mphone;
 }
