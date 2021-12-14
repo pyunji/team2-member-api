@@ -21,8 +21,42 @@
 	
 	<insert id="insert" parameterType="memberDto">
 		INSERT INTO member 
-		(mid, mname, mpassword, menabled, mrole, memail, sign_up_date, grade_level) 
-		VALUES(#{mid}, #{mname}, #{mpassword}, #{menabled}, #{mrole}, #{memail}, to_date(sysdate,'YY-MM-DD'), 1)
+		(mid, mname, mpassword, menabled, mrole, memail, mphone, sign_up_date, grade_level,gender) 
+		VALUES(#{mid}, #{mname}, #{mpassword}, #{menabled}, #{mrole}, #{memail}, #{mphone}, to_date(sysdate,'YY-MM-DD'), 1,0)
 	</insert>
+	
+	<select id="selectMember" parameterType="String" resultType="memberVo">
+		select * from member where mid = #{mid}
+	</select>
+	
+	<update id="updateMember" parameterType="memberUpdate">
+		update member set memail = #{memail},
+						  mphone = #{mphone},
+						  <if test='mtel !=null and mtel neq ""'>
+						  	mtel = #{mtel},
+						  </if>
+						  <if test='mzipcode !=null and mzipcode neq ""'>
+						  	mzipcode = #{mzipcode},
+						  </if>
+						  <if test='maddress1 !=null and maddress1 neq ""'>
+						  	maddress1 = #{maddress1},
+						  </if>
+						  <if test='maddress2 !=null and maddress2 neq ""'>
+						  	maddress2 = #{maddress2},
+						  </if>
+						  <if test='birth !=null'>
+						  	<![CDATA[birth = #{birth},]]>
+						  </if>
+						  <if test='ref_id !=null and ref_id neq ""'>
+						  	ref_id = #{ref_id},
+						  </if>
+						  gender = #{gender}
+					where mid=#{mid}
+	</update>
+	
+	<update id="wthdMember" parameterType="String">
+		update member set menabled = 3
+					  where mid=#{mid}
+	</update>
 	
 </mapper>

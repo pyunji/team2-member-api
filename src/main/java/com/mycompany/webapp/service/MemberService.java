@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.mycompany.webapp.dao.db1member.MemberDao;
 import com.mycompany.webapp.dto.MemberDto;
+import com.mycompany.webapp.dto.MemberUpdate;
 import com.mycompany.webapp.vo.MemberVo;
 
 import lombok.extern.slf4j.Slf4j;
@@ -34,11 +35,9 @@ public class MemberService {
 	//회원 가입을 처리하는 비즈니스 메소드(로직)
 	public JoinResult join(MemberDto member) {
 		try {
-			log.info("1");
 			//이미 가입된 아이디인지 확인
 			List<MemberVo> dbMember = memberDao.selectById(member.getMid()); 
-			log.info("2");
-			
+			log.info(member.getMphone());
 			//DB에 회원 정보를 저장
 			if(dbMember.size()==0) {
 				memberDao.insert(member);
@@ -71,6 +70,19 @@ public class MemberService {
 //			return LoginResult.FAIL;
 //		}
 //	}
+	
+	public MemberVo selectMember(String mid) {
+		return memberDao.selectMember(mid);
+	}
+	
+	public void updateMember(MemberUpdate member) {
+		log.info(member.toString());
+		memberDao.updateMember(member);
+	}
+	
+	public void wthdMember(String mid) {
+		memberDao.wthdMember(mid);
+	}
 }
 
 

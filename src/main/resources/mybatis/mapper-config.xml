@@ -8,6 +8,7 @@
 	<typeAliases>
 		<typeAlias type="com.mycompany.webapp.dto.MemberDto" alias="memberDto"/>
 		<typeAlias type="com.mycompany.webapp.vo.MemberVo" alias="memberVo"/>
+		<typeAlias type="com.mycompany.webapp.dto.MemberUpdate" alias="memberUpdate"/>
 		<typeAlias type="com.mycompany.webapp.vo.Cart" alias="cart"/>
 		<typeAlias type="com.mycompany.webapp.vo.Color" alias="color"/>
 		<typeAlias type="com.mycompany.webapp.vo.EventResult" alias="eventResult"/>
