@@ -1,7 +1,12 @@
 package com.mycompany.webapp.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,14 +16,17 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mycompany.webapp.dto.MemberDto;
+import com.mycompany.webapp.dto.MemberUpdate;
 import com.mycompany.webapp.security.JwtUtil;
 import com.mycompany.webapp.service.MemberService;
 import com.mycompany.webapp.service.MemberService.JoinResult;
+import com.mycompany.webapp.vo.MemberVo;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -95,7 +103,42 @@ public class MemberController {
 	
 //	@RequestMapping("/login2")
 //	public Map<String, String> login2(@RequestBody Member member) {
-//		log.info("실행");
+//		log.info("실행");s
 //		return login1(member.getMid(), member.getMpassword());
 //	}
+	
+	@RequestMapping("/checkPW")
+	public Map<String, String> checkPW(String mid, String mpassword) {
+		log.info("checkPW 실행");
+//		log.info("mid = " + mid);
+//		log.info("mpassword = " + mpassword);
+		
+		return login1(mid,mpassword);
+	}
+	
+	@RequestMapping("/member")
+	public MemberVo selectMember(HttpServletRequest request) {
+		String mid = JwtUtil.getMidFromRequest(request);
+		return memberService.selectMember(mid);
+	}
+	
+	@PostMapping("/member")
+	public void updateMember(@RequestBody MemberUpdate user) throws ParseException {
+		log.info(user.toString());
+//		if(user.getBirth()!=null) {
+//			Date date = user.getBirth();
+//			SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
+//			String strDate = f.format(date);
+//			log.info(strDate);
+//			Date to = f.parse(strDate);
+//			user.setBirth(to);
+//			log.info(user.getBirth().toString());
+//		}
+		memberService.updateMember(user);
+	}
+	
+	@RequestMapping("/member/wthd")
+	public void wthdMember(String mid) {
+		memberService.wthdMember(mid);
+	}
 }

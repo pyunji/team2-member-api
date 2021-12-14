@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.mycompany.webapp.dao.db1member.MemberDao;
 import com.mycompany.webapp.dto.MemberDto;
+import com.mycompany.webapp.dto.MemberUpdate;
 import com.mycompany.webapp.vo.MemberVo;
 
 import lombok.extern.slf4j.Slf4j;
@@ -69,6 +70,19 @@ public class MemberService {
 //			return LoginResult.FAIL;
 //		}
 //	}
+	
+	public MemberVo selectMember(String mid) {
+		return memberDao.selectMember(mid);
+	}
+	
+	public void updateMember(MemberUpdate member) {
+		log.info(member.toString());
+		memberDao.updateMember(member);
+	}
+	
+	public void wthdMember(String mid) {
+		memberDao.wthdMember(mid);
+	}
 }
 
 
