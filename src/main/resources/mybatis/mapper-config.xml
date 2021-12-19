@@ -17,5 +17,6 @@
 		<typeAlias type="com.mycompany.webapp.vo.Mileage" alias="mileage"/>
 		<typeAlias type="com.mycompany.webapp.vo.Wish" alias="wish"/>
 		<typeAlias type="com.mycompany.webapp.dto.WishItem" alias="wishitem"/>
+		<typeAlias type="com.mycompany.webapp.vo.Orders" alias="order"/>
 	</typeAliases>
 </configuration>

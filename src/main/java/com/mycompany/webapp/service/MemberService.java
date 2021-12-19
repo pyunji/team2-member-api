@@ -3,13 +3,18 @@ package com.mycompany.webapp.service;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
 import com.mycompany.webapp.dao.db1member.MemberDao;
+import com.mycompany.webapp.dao.db3orders.OrdersDao;
 import com.mycompany.webapp.dto.MemberDto;
 import com.mycompany.webapp.dto.MemberUpdate;
+import com.mycompany.webapp.dto.UserGrade;
+import com.mycompany.webapp.vo.Grade;
 import com.mycompany.webapp.vo.MemberVo;
+import com.mycompany.webapp.vo.Orders;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,6 +36,9 @@ public class MemberService {
 	
 	@Resource
 	private MemberDao memberDao;
+	
+	@Resource
+	private OrdersDao orderDao;
 	
 	//회원 가입을 처리하는 비즈니스 메소드(로직)
 	public JoinResult join(MemberDto member) {
@@ -82,6 +90,40 @@ public class MemberService {
 	
 	public void wthdMember(String mid) {
 		memberDao.wthdMember(mid);
+	}
+	
+	public List<Grade> getGrades() {
+		return memberDao.getGrades();
+	}
+	
+	@Transactional
+	public UserGrade getUserGrade(String mid) {
+		UserGrade userGrade = memberDao.getUserGrade(mid);
+
+		List<Orders> orders = orderDao.selectByMid(mid);
+		int totalAmount = 0;
+		for(Orders order : orders) {
+			//log.info(order.toString());
+			if(order.getOstatus()==null) {
+				totalAmount += order.getAfterDcPrice();
+			}
+		}
+		
+		int level = userGrade.getGlevel();
+		switch(level) {
+		case 1 : userGrade.setRemain(1000000-totalAmount);
+				 break;
+		case 2 : userGrade.setRemain(2000000-totalAmount);
+				 break;
+		case 3 : userGrade.setRemain(3000000-totalAmount);
+				 break;
+		case 4 : userGrade.setRemain(5000000-totalAmount);
+				 break;
+		case 5 : break;
+		}
+		//log.info(userGrade.toString());
+		
+		return userGrade;
 	}
 }
 

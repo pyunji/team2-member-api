@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mycompany.webapp.dao.db1member.MemberDao">
+	<select id="getGrades" resultType="com.mycompany.webapp.vo.Grade">
+		select * from grade
+	</select>
+	<select id="getUserGrade" parameterType="String" resultType="com.mycompany.webapp.dto.UserGrade">
+		select g.glevel, g.gimg, 0
+		from member m, grade g
+		where m.mid=#{mid} and m.grade_level = g.glevel
+	</select>
+</mapper>

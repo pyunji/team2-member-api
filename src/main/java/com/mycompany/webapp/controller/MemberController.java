@@ -1,9 +1,8 @@
 package com.mycompany.webapp.controller;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,9 +22,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mycompany.webapp.dto.MemberDto;
 import com.mycompany.webapp.dto.MemberUpdate;
+import com.mycompany.webapp.dto.UserGrade;
 import com.mycompany.webapp.security.JwtUtil;
 import com.mycompany.webapp.service.MemberService;
 import com.mycompany.webapp.service.MemberService.JoinResult;
+import com.mycompany.webapp.vo.Grade;
 import com.mycompany.webapp.vo.MemberVo;
 
 import lombok.extern.slf4j.Slf4j;
@@ -140,5 +141,17 @@ public class MemberController {
 	@RequestMapping("/member/wthd")
 	public void wthdMember(String mid) {
 		memberService.wthdMember(mid);
+	}
+	
+	@RequestMapping("/grade")
+	public List<Grade> memberGrade() {
+		return memberService.getGrades();
+	}
+	
+	@RequestMapping("/member/grade")
+	public UserGrade getUserGrade(HttpServletRequest request) {
+		log.info("getUserGrade실행");
+		String mid = JwtUtil.getMidFromRequest(request);
+		return memberService.getUserGrade(mid);
 	}
 }
