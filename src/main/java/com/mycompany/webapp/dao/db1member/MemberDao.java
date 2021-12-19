@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.mycompany.webapp.dto.MemberDto;
 import com.mycompany.webapp.dto.MemberUpdate;
+import com.mycompany.webapp.dto.UserGrade;
+import com.mycompany.webapp.vo.Grade;
 import com.mycompany.webapp.vo.MemberVo;
 
 @Mapper
@@ -15,4 +17,6 @@ public interface MemberDao {
 	public MemberVo selectMember(String mid);
 	public void updateMember(MemberUpdate member);
 	public void wthdMember(String mid);
+	public List<Grade> getGrades();
+	public UserGrade getUserGrade(String mid);
 }

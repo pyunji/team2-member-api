@@ -22,10 +22,15 @@ public class MemberVo {
 	private int tosNo;
 	private int menabled;
 	private String mrole;
+
 	private Date signUpDate;
 	private int gradeLevel;
-	private String mileage;
+
 	private int grate;
 	private String gnote;
 	private String gimg;
+
+
+	private int mileage;
+
 }
