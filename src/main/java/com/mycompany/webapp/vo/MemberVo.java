@@ -24,4 +24,5 @@ public class MemberVo {
 	private String mrole;
 	private Date sign_up_date;
 	private int grade_level;
+	private int mileage;
 }
