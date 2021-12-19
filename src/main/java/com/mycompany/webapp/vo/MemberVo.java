@@ -17,12 +17,16 @@ public class MemberVo {
 	private String maddress2;
 	private Date birth;
 	private int gender;
-	private String ref_id;
-	private String login_type;
-	private int tos_no;
+	private String refId;
+	private String loginType;
+	private int tosNo;
 	private int menabled;
 	private String mrole;
-	private Date sign_up_date;
-	private int grade_level;
+	private Date signUpDate;
+	private int gradeLevel;
+	private int grate;
+	private String gnote;
+	private String gimg;
 	private int mileage;
+
 }
