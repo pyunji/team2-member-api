@@ -4,7 +4,8 @@
 <mapper namespace="com.mycompany.webapp.dao.db1member.OrderFormDao">
 
 	<select id="selectByMid" parameterType="String" resultType="memberVo">
-		select * from member where mid=#{mid}
+		select * from member m, grade g
+		 where mid=#{mid} and m.grade_level = g.glevel
 	</select>
 
 	
