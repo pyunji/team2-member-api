@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mycompany.webapp.dao.db1member.EventDao">
+	<select id="selectAllEvent" resultType="event">
+		select * from Event
+		order by eexpire_date desc
+	</select>
+	<select id="selectForMain" resultType="event">
+		select * from Event
+		where estatus=1
+		order by eexpire_date desc
+		fetch first 3 rows only
+	</select>
+	<select id="selectEvent" resultType="event" parameterType="int">
+		select * from Event
+		where eno=#{eno}
+	</select>
+</mapper>
