@@ -154,4 +154,11 @@ public class MemberController {
 		String mid = JwtUtil.getMidFromRequest(request);
 		return memberService.getUserGrade(mid);
 	}
+	
+	@RequestMapping("/member/mileage")
+	public int getUserMileage(HttpServletRequest request) {
+		log.info("getUserMileage실행");
+		String mid = JwtUtil.getMidFromRequest(request);
+		return memberService.getUserMileage(mid);
+	}
 }

@@ -59,4 +59,9 @@
 					  where mid=#{mid}
 	</update>
 	
+	<select id="getUserMileage" parameterType="String" resultType="int">
+		select mileage from member
+		where mid = #{mid}
+	</select>
+	
 </mapper>

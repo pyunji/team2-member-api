@@ -19,4 +19,5 @@ public interface MemberDao {
 	public void wthdMember(String mid);
 	public List<Grade> getGrades();
 	public UserGrade getUserGrade(String mid);
+	public int getUserMileage(String mid);
 }

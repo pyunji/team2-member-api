@@ -104,7 +104,7 @@ public class MemberService {
 		int totalAmount = 0;
 		for(Orders order : orders) {
 			//log.info(order.toString());
-			if(order.getOstatus()==null) {
+			if(order.getOstatus().equals("주문 완료")) {
 				totalAmount += order.getAfterDcPrice();
 			}
 		}
@@ -124,6 +124,10 @@ public class MemberService {
 		//log.info(userGrade.toString());
 		
 		return userGrade;
+	}
+	
+	public int getUserMileage(String mid) {
+		return memberDao.getUserMileage(mid);
 	}
 }
 
