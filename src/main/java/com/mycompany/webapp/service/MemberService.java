@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.mycompany.webapp.dao.db1member.MemberDao;
 import com.mycompany.webapp.dao.db3orders.OrdersDao;
+import com.mycompany.webapp.dto.CouponEvent;
 import com.mycompany.webapp.dto.MemberDto;
 import com.mycompany.webapp.dto.MemberUpdate;
 import com.mycompany.webapp.dto.UserGrade;
@@ -128,6 +129,10 @@ public class MemberService {
 	
 	public int getUserMileage(String mid) {
 		return memberDao.getUserMileage(mid);
+	}
+	
+	public List<CouponEvent> getUserCoupon(String mid) {
+		return memberDao.getUserCoupon(mid);
 	}
 }
 
