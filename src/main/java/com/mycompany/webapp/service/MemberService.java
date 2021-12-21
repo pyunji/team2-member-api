@@ -106,7 +106,7 @@ public class MemberService {
 		for(Orders order : orders) {
 			//log.info(order.toString());
 			if(order.getOstatus().equals("주문 완료")) {
-				totalAmount += order.getAfterDcPrice();
+				totalAmount += order.getBeforeDcPrice();
 			}
 		}
 		
