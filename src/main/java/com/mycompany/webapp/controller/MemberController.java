@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mycompany.webapp.dto.CouponEvent;
 import com.mycompany.webapp.dto.MemberDto;
 import com.mycompany.webapp.dto.MemberUpdate;
 import com.mycompany.webapp.dto.UserGrade;
@@ -160,5 +161,12 @@ public class MemberController {
 		log.info("getUserMileage실행");
 		String mid = JwtUtil.getMidFromRequest(request);
 		return memberService.getUserMileage(mid);
+	}
+	
+	@RequestMapping("/member/coupon")
+	public List<CouponEvent> getUserCoupon(HttpServletRequest request){
+		log.info("getUserCoupon실행");
+		String mid = JwtUtil.getMidFromRequest(request);
+		return memberService.getUserCoupon(mid);
 	}
 }

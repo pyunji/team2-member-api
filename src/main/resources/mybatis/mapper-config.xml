@@ -12,7 +12,8 @@
 		<typeAlias type="com.mycompany.webapp.vo.Cart" alias="cart"/>
 		<typeAlias type="com.mycompany.webapp.vo.Color" alias="color"/>
 		<typeAlias type="com.mycompany.webapp.vo.EventResult" alias="eventResult"/>
-		<typeAlias type="com.mycompany.webapp.vo.CouponDetail" alias="couponDetail"/>
+		<typeAlias type="com.mycompany.webapp.vo.Coupon" alias="coupon"/>
+		<typeAlias type="com.mycompany.webapp.dto.CouponEvent" alias="couponEvent"/>
 		<typeAlias type="com.mycompany.webapp.vo.Event" alias="event"/>
 		<typeAlias type="com.mycompany.webapp.vo.Mileage" alias="mileage"/>
 		<typeAlias type="com.mycompany.webapp.vo.Wish" alias="wish"/>

@@ -15,4 +15,17 @@
 		select * from Event
 		where eno=#{eno}
 	</select>
+	<update id="plusCount" parameterType="int">
+		update event set ecount = ecount+1
+		where eno=#{eno}
+	</update>
+	<insert id="insertCoupon">
+		insert into coupon
+		(coupon_id, eno, mid, cissue_date, cexpire_date, cuse_date)
+		values ((coupon_id_seq.nextval), #{eno}, #{mid}, to_date(sysdate,'YY-MM-DD'),to_date(add_months(sysdate,12),'YYYY-MM-DD'),null)
+	</insert>
+	<select id="selectCoupon" resultType="coupon">
+		select * from coupon
+		where mid=#{mid} and eno=#{eno}
+	</select>
 </mapper>
