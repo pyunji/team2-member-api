@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.mycompany.webapp.dto.CouponEvent;
 import com.mycompany.webapp.dto.MemberDto;
@@ -44,6 +46,7 @@ public class MemberController {
 	
 	@Autowired private AuthenticationManager authenticationManager;
 	
+	//회원 가입
 	@RequestMapping("/join1")
 	public Map<String, String> join1(MemberDto member) {
 		log.info("join1실행");
@@ -64,11 +67,29 @@ public class MemberController {
 		return map;
 	}
 	
+	//회원 가입을 위해 처음 들어오는 경로
 	@RequestMapping("/join2")
 	public Map<String, String> join2(@RequestBody MemberDto member) {
 		log.info("join2실행");
-		log.info(member.toString());
-		return join1(member);
+		//log.info(member.toString());
+		
+		//하나의 ip주소로 중복(5번 이상) 회원가입 하는 경우를 막는 부분
+		//클라이언트 ip주소 확인
+		HttpServletRequest req = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
+		String ip = req.getHeader("X-FORWARDED-FOR");
+		if (ip == null) {
+			ip = req.getRemoteAddr();
+		}
+		log.info(ip);
+		
+		String result = memberService.checkDuplicatedIP(ip);
+		if(result.equals("duplicated")) {
+			Map<String ,String> map = new HashMap<String, String>();
+			map.put("result", "duplicated_ip");
+			return map;
+		}else {
+			return join1(member);
+		}
 	}
 	
 	@RequestMapping("/login")
