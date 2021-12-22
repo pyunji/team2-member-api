@@ -59,4 +59,15 @@
 					  where mid=#{mid}
 	</update>
 	
+	<select id="getUserMileage" parameterType="String" resultType="int">
+		select mileage from member
+		where mid = #{mid}
+	</select>
+	
+	<select id="getUserCoupon" parameterType="String" resultType="couponEvent">
+		select c.coupon_id,c.eno,c.mid,c.cissue_date,c.cexpire_date,c.cuse_date,e.etitle,e.econtent,e.ethumbnail
+		from coupon c, event e
+		where c.mid=#{mid} and c.eno=e.eno
+	</select>
+	
 </mapper>

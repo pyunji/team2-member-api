@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.mycompany.webapp.dto.CouponEvent;
 import com.mycompany.webapp.dto.MemberDto;
 import com.mycompany.webapp.dto.MemberUpdate;
 import com.mycompany.webapp.dto.UserGrade;
@@ -19,4 +20,6 @@ public interface MemberDao {
 	public void wthdMember(String mid);
 	public List<Grade> getGrades();
 	public UserGrade getUserGrade(String mid);
+	public int getUserMileage(String mid);
+	public List<CouponEvent> getUserCoupon(String mid);
 }

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mycompany.webapp.dao.db1member.EventDao">
+	<select id="selectAllEvent" resultType="event">
+		select * from Event
+		order by eexpire_date desc
+	</select>
+	<select id="selectForMain" resultType="event">
+		select * from Event
+		where estatus=1
+		order by eexpire_date desc
+		fetch first 3 rows only
+	</select>
+	<select id="selectEvent" resultType="event" parameterType="int">
+		select * from Event
+		where eno=#{eno}
+	</select>
+	<update id="plusCount" parameterType="int">
+		update event set ecount = ecount+1
+		where eno=#{eno}
+	</update>
+	<insert id="insertCoupon">
+		insert into coupon
+		(coupon_id, eno, mid, cissue_date, cexpire_date, cuse_date)
+		values ((coupon_id_seq.nextval), #{eno}, #{mid}, to_date(sysdate,'YY-MM-DD'),to_date(add_months(sysdate,12),'YYYY-MM-DD'),null)
+	</insert>
+	<select id="selectCoupon" resultType="coupon">
+		select * from coupon
+		where mid=#{mid} and eno=#{eno}
+	</select>
+</mapper>

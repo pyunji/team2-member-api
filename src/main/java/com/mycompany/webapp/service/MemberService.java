@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.mycompany.webapp.dao.db1member.MemberDao;
 import com.mycompany.webapp.dao.db3orders.OrdersDao;
+import com.mycompany.webapp.dto.CouponEvent;
 import com.mycompany.webapp.dto.MemberDto;
 import com.mycompany.webapp.dto.MemberUpdate;
 import com.mycompany.webapp.dto.UserGrade;
@@ -104,8 +105,8 @@ public class MemberService {
 		int totalAmount = 0;
 		for(Orders order : orders) {
 			//log.info(order.toString());
-			if(order.getOstatus()==null) {
-				totalAmount += order.getAfterDcPrice();
+			if(order.getOstatus().equals("주문 완료")) {
+				totalAmount += order.getBeforeDcPrice();
 			}
 		}
 		
@@ -124,6 +125,14 @@ public class MemberService {
 		//log.info(userGrade.toString());
 		
 		return userGrade;
+	}
+	
+	public int getUserMileage(String mid) {
+		return memberDao.getUserMileage(mid);
+	}
+	
+	public List<CouponEvent> getUserCoupon(String mid) {
+		return memberDao.getUserCoupon(mid);
 	}
 }
 
