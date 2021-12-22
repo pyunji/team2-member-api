@@ -22,6 +22,7 @@ public class MemberVo {
 	private int tosNo;
 	private int menabled;
 	private String mrole;
+
 	private Date signUpDate;
 	private int gradeLevel;
 	private int grate;

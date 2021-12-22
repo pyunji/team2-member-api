@@ -19,5 +19,6 @@
 		<typeAlias type="com.mycompany.webapp.vo.Wish" alias="wish"/>
 		<typeAlias type="com.mycompany.webapp.dto.WishItem" alias="wishitem"/>
 		<typeAlias type="com.mycompany.webapp.vo.Orders" alias="order"/>
+		<typeAlias type="com.mycompany.webapp.dto.ContextDto" alias="contextDto"/>
 	</typeAliases>
 </configuration>
