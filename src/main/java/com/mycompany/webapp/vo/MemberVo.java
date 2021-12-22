@@ -25,12 +25,9 @@ public class MemberVo {
 
 	private Date signUpDate;
 	private int gradeLevel;
-
 	private int grate;
 	private String gnote;
 	private String gimg;
-
-
 	private int mileage;
 
 }
