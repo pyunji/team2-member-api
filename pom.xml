@@ -82,6 +82,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-jta-atomikos</artifactId>
 		</dependency>
+		
+		<!-- redis 추가 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-redis</artifactId>
+		</dependency>
 	</dependencies>
 
 
@@ -98,6 +104,7 @@
 						</exclude>
 					</excludes>
 				</configuration>
+				
 			</plugin>
 		</plugins>
 	</build>
