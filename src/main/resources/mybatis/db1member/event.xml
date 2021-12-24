@@ -8,7 +8,7 @@
 	<select id="selectForMain" resultType="event">
 		select * from Event
 		where estatus=1
-		order by eexpire_date desc
+		order by eexpire_date
 		fetch first 3 rows only
 	</select>
 	<select id="selectEvent" resultType="event" parameterType="int">
