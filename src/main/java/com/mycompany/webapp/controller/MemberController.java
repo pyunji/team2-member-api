@@ -74,12 +74,16 @@ public class MemberController {
 		//log.info(member.toString());
 		
 		//하나의 ip주소로 중복(5번 이상) 회원가입 하는 경우를 막는 부분
+		
 		//클라이언트 ip주소 확인
-		HttpServletRequest req = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
+		HttpServletRequest req = ((ServletRequestAttributes)RequestContextHolder
+											.currentRequestAttributes())
+											.getRequest();
 		String ip = req.getHeader("X-FORWARDED-FOR");
 		if (ip == null) {
 			ip = req.getRemoteAddr();
 		}
+		
 		log.info(ip);
 		
 		String result = memberService.checkDuplicatedIP(ip);
@@ -162,6 +166,7 @@ public class MemberController {
 	
 	@RequestMapping("/member/wthd")
 	public void wthdMember(String mid) {
+		//log.info("wthd 실행");
 		memberService.wthdMember(mid);
 	}
 	

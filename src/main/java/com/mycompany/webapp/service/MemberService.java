@@ -81,13 +81,12 @@ public class MemberService {
 			if(num==2) return "duplicated";
 			else {
 				num++;
-				//vops.set(ip, Integer.toString(num));
-				//두번째 회원가입을 하고 난 후에는 24시간이 지나야 할 수 있음
+				//두번째 회원가입을 하고 난 후에는 24시간이 지나야 할 
 				vops.set(ip, Integer.toString(num), duration);
-							}
+				}
 		} else {
 			//한번도 가입한 적이 없는 ip인 경우
-			vops.set(ip, "1",duration);
+			vops.set(ip, "1");
 		}
 		return "possible";
 	}
