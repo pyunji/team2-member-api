@@ -101,7 +101,7 @@ public class MemberService {
 				//해당 ip주소로 10번 이상 회원 가입 시도
 				//관리자에게 이메일 보내기
 				log.info("send email");
-				mailService.sendTextMail(ip);
+				mailService.sendDupUserMail(ip);
 				result = "duplicated";
 			} else {
 				//해당 ip주소로 10번 미만 회원 가입 시도
