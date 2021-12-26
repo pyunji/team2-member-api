@@ -5,6 +5,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.mail.MessagingException;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,9 @@ public class MemberService {
 	@Autowired
 	StringRedisTemplate redisTemplate;
 	
+	@Autowired
+	MailService mailService;
+	
 	//회원 가입을 처리하는 비즈니스 메소드(로직)
 	public JoinResult join(MemberDto member) {
 		try {
@@ -68,29 +72,72 @@ public class MemberService {
 		}
 	}
 	
-	public String checkDuplicatedIP(String ip) {
+	//Redis사용 ip주소 중복 확인
+	public String checkDuplicatedIP(String ip) throws MessagingException {
 		ValueOperations<String,String> vops = redisTemplate.opsForValue();
 		
-		String registeredIP = vops.get(ip);
-		log.info(registeredIP);
+		String result = "";
+		
+		String day_ip_cnt = vops.get("day_"+ip);
+		String total_ip_cnt = vops.get("total_"+ip);
+		
+		log.info("day_ip_cnt" + day_ip_cnt);
+		log.info("total_ip_cnt" + total_ip_cnt);
 		
 		Duration duration = Duration.between(LocalTime.of(0, 0), LocalTime.of(23, 59));
 		
-		if(registeredIP != null) {
-			int num = Integer.parseInt(registeredIP);
-			if(num==2) return "duplicated";
-			else {
-				num++;
-
-				//두번째 회원가입을 하고 난 후에는 24시간이 지나야 할 
-				vops.set(ip, Integer.toString(num), duration);
+		if(total_ip_cnt==(null)) {
+			//해당 ip주소로 이전에 한번도 가입한 적이 없는 경우
+			vops.set("total_"+ip, "1");
+			vops.set("day_"+ip, "1");
+			result = "possible";
+			log.info("here");
+		}else {
+			//가입한 이력이 있는 ip주소
+			int total_ip_num = Integer.parseInt(total_ip_cnt);
+//			if(total_ip_num==10) {
+//			//test
+			if(total_ip_num>=3) {
+				//해당 ip주소로 10번 이상 회원 가입 시도
+				//관리자에게 이메일 보내기
+				log.info("send email");
+				mailService.sendTextMail(ip);
+				result = "duplicated";
+			} else {
+				//해당 ip주소로 10번 미만 회원 가입 시도
+				if(day_ip_cnt==(null)) {
+					//오늘 가입한 적이 없는 경우
+					vops.set("day_"+ip, "1");
+					vops.set("total_"+ip, Integer.toString(total_ip_num + 1));
+					result = "possible";
+				}else {
+					//오늘 가입한 적이 있는 경우
+					int num = Integer.parseInt(day_ip_cnt);
+					log.info(day_ip_cnt);
+					if(num>=2) result = "duplicated";
+					else {
+						num++;
+						//두번째 회원가입을 하고 난 후에는 24시간이 지나야 함
+						log.info(Integer.toString(num));
+						vops.set("day_"+ip, Integer.toString(num),duration);
+						log.info(vops.get("day_" +ip));
+						vops.set("total_"+ip, Integer.toString(total_ip_num + 1));
+						result = "possible";
+					}
 				}
-		} else {
-			//한번도 가입한 적이 없는 ip인 경우
-			vops.set(ip, "1");
-
+			}			
 		}
-		return "possible";
+		//회원 가입이 가능한 경우 총 누적 회원 가입 횟수 count+1; 
+		if(result.equals("possible")) {
+			String totalCnt = vops.get("total_cnt");
+			if(totalCnt==(null)) {
+				vops.set("total_cnt", "1");
+			} else {
+				vops.set("total_cnt", Integer.toString(Integer.parseInt(totalCnt)+1));
+			}
+		}
+		
+		return result;
 	}
 
 //	public LoginResult login(MemberDto member) {
