@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,11 +70,11 @@ public class MemberController {
 	
 	//회원 가입을 위해 처음 들어오는 경로
 	@RequestMapping("/join2")
-	public Map<String, String> join2(@RequestBody MemberDto member) {
+	public Map<String, String> join2(@RequestBody MemberDto member) throws MessagingException {
 		log.info("join2실행");
 		//log.info(member.toString());
 		
-		//하나의 ip주소로 중복(5번 이상) 회원가입 하는 경우를 막는 부분
+		//하나의 ip주소로 중복 회원가입 하는 경우를 막는 부분
 		
 		//클라이언트 ip주소 확인
 		HttpServletRequest req = ((ServletRequestAttributes)RequestContextHolder
@@ -87,11 +88,14 @@ public class MemberController {
 		log.info(ip);
 		
 		String result = memberService.checkDuplicatedIP(ip);
+		
+		//하루 회원가입 횟수(2번)을 넘긴 경우 / 같은 ip주소로 총 회원 가입 횟수가 10번이 넘은 경우
 		if(result.equals("duplicated")) {
 			Map<String ,String> map = new HashMap<String, String>();
 			map.put("result", "duplicated_ip");
 			return map;
 		}else {
+			//회원가입하는데 문제 x
 			return join1(member);
 		}
 	}
