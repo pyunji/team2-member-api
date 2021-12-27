@@ -24,8 +24,8 @@ public class JoinCountEmailJob {
 	MailService mailService;
 	
 	/* 매일 회원 가입 누적 횟수 관리자 이메일로 전송*/
-	//@Scheduled(cron="0 0 0 * * *")		//매일 자정
-	@Scheduled(cron = "*/30 * * * * *") // 10초마다 (테스트용)
+	@Scheduled(cron="0 0 0 * * *")		//매일 자정
+	//@Scheduled(cron = "*/30 * * * * *") // 10초마다 (테스트용)
 	public void sendJoinCountAdmin() throws MessagingException {
 		ValueOperations<String,String> vops = redisTemplate.opsForValue();
 		
