@@ -34,8 +34,13 @@ public class MailTotalCnt {
 	}
 	
 	public String getMailText3() {
-		int percentage = (((today_total - yesterday_total) - yesterday)/yesterday)*100;
-		String mailText3 =  "전날 대비 회원가입 증가 비율 : " + percentage+"% 증가";
+		String mailText3 = "";
+		try {
+			int percentage = (((today_total - yesterday_total) - yesterday)/yesterday)*100;
+			mailText3 =  "전날 대비 회원가입 증가 비율 : " + percentage+"% 증가";
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		return mailText3;
 	}
 	
